@@ -40,3 +40,9 @@ class CollectionReference extends Query {
     return new DocumentReference._(_firestore, childPath);
   }
 }
+
+class ServerValue {
+  static const Map<String, String> timestamp = const <String, String>{
+    '.sv': 'timestamp'
+  };
+}
