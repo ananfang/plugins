@@ -11,6 +11,7 @@ class Firestore {
   @visibleForTesting
   static const MethodChannel channel = const MethodChannel(
     'plugins.flutter.io/cloud_firestore',
+    const FirestoreMethodCodec(),
   );
 
   static final Map<int, StreamController<QuerySnapshot>> _queryObservers =
@@ -52,4 +53,32 @@ class Firestore {
     assert(path != null);
     return new DocumentReference._(this, path.split('/'));
   }
+}
+
+class FieldValue {
+  final int type;
+
+  const FieldValue._(this.type);
+
+  @override
+  bool operator ==(dynamic o) => o is FieldValue && o.type == type;
+
+  @override
+  int get hashCode => type;
+
+  static FieldValue get delete => const FieldValue._(0);
+
+  static FieldValue get serverTimestamp => const FieldValue._(1);
+}
+
+class GeoPoint {
+  final double latitude;
+  final double longitude;
+  const GeoPoint(this.latitude, this.longitude);
+  
+  @override
+  bool operator ==(dynamic o) => o is GeoPoint && o.latitude == latitude && o.longitude == longitude;
+  
+  @override
+  int get hashCode => hashValues(latitude, longitude);
 }
